@@ -6,7 +6,7 @@ import ollama
 from langsmith import traceable
 
 MAX_ITERATIONS = 10
-MODEL = "qwen3:1.7b"
+MODEL = "qwen3.5:2b"
 
 
 # --- Tools (LangChain @tool decorator) ---
@@ -119,13 +119,14 @@ def run_agent(question: str):
                 "and a discount tool.\n\n"
                 "STRICT RULES — you must follow these exactly:\n"
                 "1. NEVER guess or assume any product price. "
-                "You MUST call get_product_price first to get the real price.\n"
+                "Based on the product type (laptop, headphones or keyboard), You MUST call get_product_price first to get the real price.\n"
                 "2. Only call apply_discount AFTER you have received "
                 "a price from get_product_price. Pass the exact price "
                 "returned by get_product_price — do NOT pass a made-up number.\n"
                 "3. NEVER calculate discounts yourself using math. "
                 "Always use the apply_discount tool.\n"
-                "4. If the user does not specify a discount tier, "
+                "4.Find the discount tier from the QUESTION and CALL the apply_discount tool with the correct tier. "
+                "5. If the user does not specify a discount tier, "
                 "ask them which tier to use — do NOT assume one."
             ),
         },
