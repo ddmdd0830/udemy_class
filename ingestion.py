@@ -34,9 +34,9 @@ embeddings = OpenAIEmbeddings(
 )
 
 # chroma = Chroma(persist_directory="chroma_db", embedding_function=embeddings)
-vectorstore = Chroma(persist_directory="chroma_db", embedding_function=embeddings)
+# vectorstore = Chroma(persist_directory="chroma_db", embedding_function=embeddings)
 
-# vectorstore = PineconeVectorStore(index_name="langchain-doc-index", embedding=embeddings)
+vectorstore = PineconeVectorStore(index_name="langchain-doc-index", embedding=embeddings)
 tavily_extract = TavilyExtract()
 tavily_map = TavilyMap(max_depth=5, max_breath=20, max_pages=1000)
 tavily_crawl = TavilyCrawl()
