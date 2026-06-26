@@ -5,19 +5,19 @@ from dotenv import load_dotenv
 load_dotenv()
 
 from langchain_core.messages import HumanMessage
-from langchain_core.output_parsers.openai_tools import (JsonOutputToolsParser,
-                                                        PydanticToolsParser)
+from langchain_core.output_parsers.openai_tools import (
+    JsonOutputToolsParser,
+    PydanticToolsParser,
+)
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_openai import ChatOpenAI
 
 from schemas import AnswerQuestion, ReviseAnswer
 
 llm = ChatOpenAI(model="o4-mini")
-
 parser = JsonOutputToolsParser(return_id=True)
 parser_pydantic = PydanticToolsParser(tools=[AnswerQuestion])
 
-# template for both responder and revisor
 actor_prompt_template = ChatPromptTemplate.from_messages(
     [
         (
@@ -57,8 +57,6 @@ revise_instructions = """Revise your previous answer using the new information.
 revisor = actor_prompt_template.partial(
     first_instruction=revise_instructions
 ) | llm.bind_tools(tools=[ReviseAnswer], tool_choice="ReviseAnswer")
-
-
 
 
 if __name__ == "__main__":

@@ -12,6 +12,7 @@ tavily_tool = TavilySearch(max_results=5)
 
 
 def run_queries(search_queries: list[str], **kwargs):
+    """Run the generated queries."""
     return tavily_tool.batch([{"query": query} for query in search_queries])
 
 
