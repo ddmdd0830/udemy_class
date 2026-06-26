@@ -1,18 +1,21 @@
 from dotenv import load_dotenv
-from langchain_core.tools import tool
-from langchain_openai import ChatOpenAI
-from langchain_tavily import TavilySearch
+from langgraph.graph import MessagesState
+from langgraph.prebuilt import ToolNode
 
+from react import llm, tools
 
 load_dotenv()  # Load environment variables from .env file
 
-@tool
-def triple(num:float) -> float:
-    """Returns the triple of the input number."""
-    return float(num) * 3
+SYSTEM_MESSAGE = """
+You are a helpful assistant that can use tools to answer questions.
+"""
 
-tools = [triple, TavilySearch(max_results=1)]
+def run_agent_reasoning(state: MessagesState) -> MessagesState:
+    """
+    Run the agent reasoing node
+    """
 
-llm = ChatOpenAI(model_name="gpt-4o-mini", temperature=0).bind_tools(tools)
+    response = llm.invoke([{"role": "system", "content": SYSTEM_MESSAGE}, *state["messages"]])
+    return {"messages": [response]}
 
-
+tool_node = ToolNode(tools)
