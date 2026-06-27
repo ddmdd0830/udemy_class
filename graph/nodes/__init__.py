@@ -1,13 +1,6 @@
-from typing import Any, Dict
+from graph.nodes.generate import generate
+from graph.nodes.grade_documents import grade_documents
+from graph.nodes.retrieve import retrieve
+from graph.nodes.web_search import web_search
 
-from graph.state import GraphState
-from ingestion import retriever
-
-
-def retrieve(state: GraphState) -> Dict[str, Any]:
-    print("---RETRIEVE---")
-    # extract question from the current state
-    question = state["question"]
-
-    documents = retriever.invoke(question)
-    return {"documents": documents, "question": question}
+__all__ = ["generate", "grade_documents", "retrieve", "web_search"]
