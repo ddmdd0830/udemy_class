@@ -30,6 +30,7 @@ async def main():
             agent = create_agent(llm,tools)
 
             result = await agent.ainvoke({"messages": [HumanMessage(content="What is 54 + 2 * 3?")]})
+            # result = await agent.ainvoke({"messages": [HumanMessage(content="What is weather in New York?")]})
             print(result["messages"][-1].content)
 
 if __name__ == "__main__":
